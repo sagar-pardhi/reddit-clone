@@ -1,4 +1,4 @@
-import { authModalState } from "@/atoms/AuthModalAtom";
+import { authModalState } from "@/atoms/authModalAtom";
 import { auth } from "@/firebase/clientApp";
 import {
   Button,
@@ -21,7 +21,7 @@ import ResetPassword from "./ResetPassword";
 
 export default function AuthModel() {
   const [modalState, setModalState] = useRecoilState(authModalState);
-  const [user, loading, error] = useAuthState(auth)
+  const [user, loading, error] = useAuthState(auth);
 
   const handleClose = () => {
     setModalState((prev) => ({
@@ -31,9 +31,9 @@ export default function AuthModel() {
   };
 
   useEffect(() => {
-    if (user) handleClose()
-    console.log(user)
-  }, [user])
+    if (user) handleClose();
+    console.log(user);
+  }, [user]);
 
   return (
     <>
@@ -54,13 +54,13 @@ export default function AuthModel() {
             pb={6}
           >
             <Flex direction="column" align="center" justify="center" w="70%">
-              {modalState.view === 'login' || modalState.view === 'signup' ? (
+              {modalState.view === "login" || modalState.view === "signup" ? (
                 <>
-                <OAuthButtons />
-                <Text color="gray.500" fontWeight={700}>
-                  OR
-                </Text>
-                <AuthInputs />
+                  <OAuthButtons />
+                  <Text color="gray.500" fontWeight={700}>
+                    OR
+                  </Text>
+                  <AuthInputs />
                 </>
               ) : (
                 <ResetPassword />
