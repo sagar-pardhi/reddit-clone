@@ -9,7 +9,8 @@ type HeaderProps = {
 };
 
 const Header = ({ communityData }: HeaderProps) => {
-  const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData();
+  const { communityStateValue, onJoinOrLeaveCommunity, loading } =
+    useCommunityData();
   const isJoined = !!communityStateValue.mySnippets.find(
     (item) => item.communityId === communityData.id
   );
@@ -47,6 +48,7 @@ const Header = ({ communityData }: HeaderProps) => {
               pr={6}
               pl={6}
               onClick={() => onJoinOrLeaveCommunity(communityData, isJoined)}
+              isLoading={loading}
             >
               {isJoined ? "Joined" : "Join"}
             </Button>
