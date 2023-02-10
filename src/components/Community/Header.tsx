@@ -1,4 +1,3 @@
-import React from "react";
 import { Community } from "@/atoms/communitiesAtom";
 import { Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import { FaReddit } from "react-icons/fa";
