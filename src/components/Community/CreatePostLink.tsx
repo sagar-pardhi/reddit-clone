@@ -22,7 +22,7 @@ const CreatePostLink: React.FC<CreatePostProps> = () => {
       return;
     }
     const { communityId } = router.query;
-    router.push(`r/${communityId}/submit`);
+    router.push(`${communityId}/submit`);
   };
 
   return (
