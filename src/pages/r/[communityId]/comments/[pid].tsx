@@ -8,11 +8,14 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { doc, getDoc } from "firebase/firestore";
 import { Post } from "@/atoms/postAtom";
+import About from "@/components/Community/About";
+import useCommunityData from "../../../../hooks/useCommunityData";
 
 const PostPage: React.FC = () => {
   const [user] = useAuthState(auth);
   const { postStateValue, setPostStateValue, onDeletePost, onVote } =
     usePosts();
+  const { communityStateValue } = useCommunityData();
   const router = useRouter();
 
   const fetchPost = async (postId: string) => {
@@ -21,7 +24,7 @@ const PostPage: React.FC = () => {
       const postDoc = await getDoc(postDocRef);
       setPostStateValue((prev) => ({
         ...prev,
-        selectedPost: { id: postDoc.id, ...(postDoc.data() as Post) },
+        selectedPost: { id: postDoc.id, ...postDoc.data() } as Post,
       }));
     } catch (error: any) {
       console.log("fetchPost error", error);
@@ -54,7 +57,11 @@ const PostPage: React.FC = () => {
         )}
         {/* Comments */}
       </>
-      <>{/* About */}</>
+      <>
+        {communityStateValue.currentCommunity && (
+          <About communityData={communityStateValue.currentCommunity} />
+        )}
+      </>
     </PageContent>
   );
 };
