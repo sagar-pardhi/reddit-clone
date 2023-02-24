@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { communityState } from "@/atoms/communitiesAtom";
 import CreateCommunityModal from "@/components/Modal/CreateCommunity/CreateCommunityModal";
-import { Flex, MenuItem, Icon, Text, Box } from "@chakra-ui/react";
+import { Box, Flex, Icon, MenuItem, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import { FaReddit } from "react-icons/fa";
 import { GrAdd } from "react-icons/gr";
 import { useRecoilValue } from "recoil";
-import { communityState } from "@/atoms/communitiesAtom";
 import MenuListItem from "./MenuListItem";
-import { FaReddit } from "react-icons/fa";
 
 type Props = {};
 
@@ -27,7 +27,7 @@ const Communities: React.FC<Props> = () => {
             <MenuListItem
               key={snippet.communityId}
               icon={FaReddit}
-              dsiplayText={`r/${snippet.communityId}`}
+              displayText={`r/${snippet.communityId}`}
               link={`/r/${snippet.communityId}`}
               iconColor="brand.100"
               imageURL={snippet.imageURL}
@@ -56,7 +56,7 @@ const Communities: React.FC<Props> = () => {
           <MenuListItem
             key={snippet.communityId}
             icon={FaReddit}
-            dsiplayText={`r/${snippet.communityId}`}
+            displayText={`r/${snippet.communityId}`}
             link={`/r/${snippet.communityId}`}
             iconColor="blue.500"
             imageURL={snippet.imageURL}
