@@ -5,13 +5,21 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/firebase/clientApp";
 import { useRecoilValue } from "recoil";
 import { communityState } from "@/atoms/communitiesAtom";
-import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
+import {
+  query,
+  collection,
+  orderBy,
+  limit,
+  getDocs,
+  where,
+} from "firebase/firestore";
 import usePosts from "@/hooks/usePosts";
 import { Post } from "@/atoms/postAtom";
 import PostLoader from "@/components/Posts/PostLoader";
 import { Stack } from "@chakra-ui/react";
 import PostItem from "@/components/Posts/PostItem";
 import CreatePostLink from "@/components/Community/CreatePostLink";
+import useCommunityData from "@/hooks/useCommunityData";
 
 type HomeProps = {};
 
@@ -25,10 +33,31 @@ const Home: NextPage = () => {
     onDeletePost,
     onVote,
   } = usePosts();
-  const communityStateValue = useRecoilValue(communityState);
+  const { communityStateValue } = useCommunityData();
 
-  const buildUserHomeFeed = () => {
+  const buildUserHomeFeed = async () => {
     try {
+      if (communityStateValue.mySnippets.length) {
+        const myCommunityIds = communityStateValue.mySnippets.map(
+          (snippet) => snippet.communityId
+        );
+        const postQuery = query(
+          collection(firestore, "posts"),
+          where("communityId", "in", myCommunityIds),
+          limit(10)
+        );
+        const postDocs = await getDocs(postQuery);
+        const posts = postDocs.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPostStateValue((prev) => ({
+          ...prev,
+          posts: posts as Post[],
+        }));
+      } else {
+        buildNoUserHomeFeed();
+      }
     } catch (error: any) {
       console.log("buildUserHomeFeed error", error);
     }
@@ -57,6 +86,10 @@ const Home: NextPage = () => {
   };
 
   const getUserPostVotes = () => {};
+
+  useEffect(() => {
+    if (communityStateValue.snippetsFetched) buildUserHomeFeed();
+  }, [communityStateValue.snippetsFetched]);
 
   useEffect(() => {
     if (!user && !loadingUser) buildNoUserHomeFeed();
