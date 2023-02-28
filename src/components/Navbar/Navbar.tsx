@@ -6,6 +6,7 @@ import { auth } from "@/firebase/clientApp";
 import Directory from "./Directory/Directory";
 import useDirectory from "../../hooks/useDirectory";
 import { defaultMenuItem } from "../../atoms/directoryMenuItemAtom";
+import { User } from "firebase/auth";
 
 export default function Navbar() {
   const [user, loading, error] = useAuthState(auth);
@@ -44,8 +45,8 @@ export default function Navbar() {
         />
       </Flex>
       {user && <Directory />}
-      <SearchInput user={user} />
-      <RightContent user={user} />
+      <SearchInput user={user as User} />
+      <RightContent user={user as User} />
     </Flex>
   );
 }
