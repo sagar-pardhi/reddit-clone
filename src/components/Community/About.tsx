@@ -36,7 +36,6 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
   const setCommunityStateValue = useSetRecoilState(communityState);
 
   const onUpdateImage = async () => {
-    console.log("insied onUpdateImage", selectedFile);
     if (!selectedFile) return;
     setUploadingImage(true);
     try {
@@ -46,7 +45,6 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
       await updateDoc(doc(firestore, "communities", communityData.id), {
         imageURL: downloadURL,
       });
-      console.log("HERE IS DOWNLOAD URL", downloadURL);
 
       setCommunityStateValue((prev) => ({
         ...prev,
